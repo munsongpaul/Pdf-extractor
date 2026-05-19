@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Online PDF Text Extractor - Quick & Secure</title>
-    <!-- Include Mozilla PDF.js Library -->
-    <script src="https://cloudflare.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; background: #f9f9f9; }
         .upload-box { border: 3px dashed #007bff; padding: 40px; border-radius: 10px; background: white; cursor: pointer; margin-bottom: 20px; }
@@ -20,7 +19,6 @@
     <h1>Instant Online PDF Text Extractor</h1>
     <p>Extract text from any PDF file directly in your browser. 100% private—your files are never uploaded to a server.</p>
 
-    <!-- PLACE YOUR FIRST AD CODE HERE -->
     <div class="ad-space">Placeholder: Top Banner Ad (Monetag/AdSense)</div>
 
     <div class="upload-box" onclick="document.getElementById('file-input').click()">
@@ -31,21 +29,30 @@
     <button id="copy-btn" style="display:none; padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;" onclick="copyText()">Copy Text to Clipboard</button>
     <textarea id="output-text" placeholder="Your extracted text will appear here..."></textarea>
 
-    <!-- PLACE YOUR SECOND AD CODE HERE -->
     <div class="ad-space">Placeholder: Bottom Banner Ad</div>
 
-    <!-- SEO Text Area: This forces Google to rank your page -->
-    <div style="text-align: left; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px;">
+    <div style="text-align: left; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; color: #333; line-height: 1.6;">
+        <h2>About Our Free PDF Text Extractor</h2>
+        <p>Our online web utility is engineered to help professionals, students, and researchers instantly convert PDF documents into clean, editable text format without installing heavy software. Whether you need to extract data from a digital report, scrape plaintext summaries, or quickly copy notes, this tool handles everything right inside your browser window.</p>
+
         <h2>Frequently Asked Questions</h2>
-        <h3>Is this online PDF text extractor safe?</h3>
-        <p>Yes. Unlike other tools, our converter processes your document entirely on your local device using Javascript. Your data never touches an external server.</p>
-        <h3>Can I extract text from secured PDFs?</h3>
-        <p>If the PDF is password protected against viewing, you must unlock it first. If it only has copying restrictions, our browser-based tool can easily bypass it and extract the text cleanly.</p>
+        
+        <h3>Is this online PDF text extractor safe to use?</h3>
+        <p>Yes, absolutely. Unlike conventional cloud-based converters that force you to upload documents to external servers—exposing your sensitive data—our tool operates entirely client-side. By leveraging advanced local JavaScript APIs, your files are read entirely on your own device. Your private documents are never uploaded, tracked, or saved anywhere.</p>
+        
+        <h3>Can I extract text from secured or restricted PDFs?</h3>
+        <p>If a PDF document requires an open-password to read, you must unlock it before processing. However, if the file is simply locked with print or copy restrictions, our client-side utility safely bypasses those restrictive browser policies to grab the underlying text elements directly.</p>
+
+        <h3>Why choose a client-side extractor over cloud alternatives?</h3>
+        <p>Cloud utilities are often limited by internet connection speeds, throttle your maximum allowed file sizes, or put your private corporate records at risk of data leaks. Processing your assets locally guarantees immediate script output execution regardless of file size, complete processing offline, and total data privacy.</p>
+        
+        <h3>Does this tool support scanned image PDFs (OCR)?</h3>
+        <p>Currently, this utility extracts native font text layers embedded inside digital PDF documents. If your PDF consists purely of photos or flattened images from a scanner without a digital text layer, the tool will not find character data to copy. We recommend using native text documents for best results.</p>
     </div>
 
     <script>
-        // Set up PDF.js worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+        // Set up fixed PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
         async function handleFile(file) {
             if (!file) return;
