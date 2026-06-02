@@ -1,141 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="5jms-XyrSAsJyU73vlktKfXWgu0vjuOF4UZkxjkwrK4" />
     <meta charset="UTF-8">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3224262138568188" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Text Extractor - Free Online Tool</title>
+    <meta name="description" content="Free, secure, and fast online PDF to text extractor. Convert your PDFs to editable text instantly in your browser.">
+    <meta name="keywords" content="pdf to text, extract text from pdf, online pdf converter, free pdf tool">
+    <title>PDF Text Extractor - Free & Secure</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            max-width: 700px;
-            background: #fff;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        h1 { color: #2c3e50; margin-bottom: 20px; }
-        .upload-box {
-            border: 2px dashed #3498db;
-            padding: 30px;
-            border-radius: 6px;
-            background: #ecf0f1;
-            cursor: pointer;
-            display: block;
-            transition: 0.3s;
-        }
-        .upload-box:hover { background: #e2e8f0; }
-        input[type="file"] { display: none; }
-        textarea {
-            width: 100%;
-            height: 250px;
-            margin-top: 20px;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            font-family: monospace;
-            box-sizing: border-box;
-        }
-        .btn {
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 15px;
-            display: none;
-            transition: 0.3s;
-        }
-        .btn:hover { background-color: #27ae60; }
-        .content-section {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            line-height: 1.6;
-            text-align: left;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; color: #1e293b; padding: 20px; }
+        .container { max-width: 800px; background: white; margin: 40px auto; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .upload-box { border: 2px dashed #6366f1; padding: 40px; border-radius: 12px; background: #eef2ff; cursor: pointer; display: block; transition: 0.3s; }
+        .upload-box:hover { background: #e0e7ff; }
+        textarea { width: 100%; height: 300px; margin-top: 20px; padding: 16px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+        .btn { background-color: #6366f1; color: white; padding: 12px 24px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; margin: 10px 5px; display: none; }
+        .btn-green { background-color: #10b981; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>PDF Text Extractor</h1>
-        <label for="file-input" class="upload-box" id="drop-zone">
-            <p>Click or Drag & Drop to Upload a PDF File</p>
-            <input type="file" id="file-input" accept="application/pdf">
-        </label>
-        <textarea id="output-text" readonly placeholder="Your extracted text will appear here..."></textarea>
+<div class="container">
+    <h1>PDF Text Extractor</h1>
+    <p style="color: #64748b; margin-bottom: 30px;">🔒 100% Privacy: Your files are processed locally in your browser.</p>
+    
+    <label class="upload-box" for="pdf-upload">Click or Drag & Drop to Upload PDF</label>
+    <input type="file" id="pdf-upload" accept="application/pdf" style="display:none;">
+    
+    <textarea id="output-text" placeholder="Extracted text will appear here..."></textarea>
+    
+    <div>
         <button class="btn" id="copy-btn" onclick="copyText()">Copy Text</button>
+        <button class="btn btn-green" id="download-btn" onclick="downloadText()">Download .txt</button>
     </div>
+</div>
 
-    <div class="content-section">
-        <h2>About PDF Text Extractor</h2>
-        <p>Our free online PDF Text Extractor allows you to easily extract text from any PDF document. Simply upload your file, and our tool will quickly process the pages and give you clean, readable text instantly without compromising file security.</p>
+<script>
+    const upload = document.getElementById('pdf-upload');
+    const output = document.getElementById('output-text');
+    
+    upload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
         
-        <h2>How to Extract Text From PDF</h2>
-        <ol>
-            <li>Click the upload box to select a PDF file from your device.</li>
-            <li>Wait a brief moment for our system to process the pages.</li>
-            <li>View, edit, or copy the extracted text directly from the screen.</li>
-        </ol>
+        const reader = new FileReader();
+        reader.onload = async function() {
+            const typedarray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            let fullText = "";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                fullText += textContent.items.map(s => s.str).join(" ") + "\n";
+            }
+            output.value = fullText;
+            document.getElementById('copy-btn').style.display = 'inline-block';
+            document.getElementById('download-btn').style.display = 'inline-block';
+        };
+        reader.readAsArrayBuffer(file);
+    });
 
-        <h2>Why Use an Online PDF Extractor?</h2>
-        <p>Extracting text from PDF files manually can be time-consuming. Whether you are a student pulling quotes for an essay, a researcher compiling data, or a professional managing business documentation, converting a PDF back into editable text speeds up your workflow significantly. Our tool processes everything right in your browser, keeping your data entirely secure.</p>
-    </div>
+    function copyText() {
+        output.select();
+        document.execCommand('copy');
+        alert("Text copied to clipboard!");
+    }
 
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        const fileInput = document.getElementById('file-input');
-        fileInput.addEventListener('change', (e) => {
-            handleFile(e.target.files[0]);
-        });
-
-        async function handleFile(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = async function (e) {
-                const typedarray = new Uint8Array(e.target.result);
-                try {
-                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                    let fullText = "";
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const textContent = await page.getTextContent();
-                        const pageText = textContent.items.map(item => item.str).join(" ");
-                        fullText += `--- Page ${i} --- \n` + pageText + " \n\n ";
-                    }
-                    document.getElementById('output-text').value = fullText;
-                    document.getElementById('copy-btn').style.display = 'inline-block';
-                } catch (error) {
-                    alert("Error parsing PDF. Make sure it is not password-protected.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function copyText() {
-            const textarea = document.getElementById('output-text');
-            textarea.select();
-            document.execCommand('copy');
-            alert('Text copied to clipboard!');
-        }
-    </script>
+    function downloadText() {
+        const text = output.value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'extracted_text.txt';
+        a.click();
+    }
+</script>
 </body>
 </html>
