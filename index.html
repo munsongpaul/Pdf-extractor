@@ -3,65 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online PDF Text Extractor - Quick & Secure</title>
+    <title>PDF Text Extractor - Free Online Tool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; background: #f9f9f9; }
-        .upload-box { border: 3px dashed #007bff; padding: 40px; border-radius: 10px; background: white; cursor: pointer; margin-bottom: 20px; }
-        textarea { width: 100%; height: 300px; margin-top: 20px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-        .ad-space { width: 100%; height: 90px; background: #eee; margin: 20px 0; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            background: #fff;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        .upload-box {
+            border: 2px dashed #3498db;
+            padding: 30px;
+            border-radius: 6px;
+            background: #ecf0f1;
+            cursor: pointer;
+            display: block;
+            transition: 0.3s;
+        }
+        .upload-box:hover { background: #e2e8f0; }
+        input[type="file"] { display: none; }
+        textarea {
+            width: 100%;
+            height: 250px;
+            margin-top: 20px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: none;
+            transition: 0.3s;
+        }
+        .btn:hover { background-color: #27ae60; }
+        .content-section {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            line-height: 1.6;
+            text-align: left;
+        }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3224262138568188"
-     crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <h1>Instant Online PDF Text Extractor</h1>
-    <p>Extract text from any PDF file directly in your browser. 100% private—your files are never uploaded to a server.</p>
-
-    <div class="ad-space">Placeholder: Top Banner Ad (Monetag/AdSense)</div>
-
-    <div class="upload-box" onclick="document.getElementById('file-input').click()">
-        <h3>Drag & Drop your PDF here or Click to Browse</h3>
-        <input type="file" id="file-input" accept=".pdf" style="display:none;" onchange="handleFile(this.files[0])">
+    <div class="container">
+        <h1>PDF Text Extractor</h1>
+        <label for="file-input" class="upload-box" id="drop-zone">
+            <p>Click or Drag & Drop to Upload a PDF File</p>
+            <input type="file" id="file-input" accept="application/pdf">
+        </label>
+        <textarea id="output-text" readonly placeholder="Your extracted text will appear here..."></textarea>
+        <button class="btn" id="copy-btn" onclick="copyText()">Copy Text</button>
     </div>
 
-    <button id="copy-btn" style="display:none; padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;" onclick="copyText()">Copy Text to Clipboard</button>
-    <textarea id="output-text" placeholder="Your extracted text will appear here..."></textarea>
-
-    <div class="ad-space">Placeholder: Bottom Banner Ad</div>
-
-    <div style="text-align: left; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; color: #333; line-height: 1.6;">
-        <h2>About Our Free PDF Text Extractor</h2>
-        <p>Our online web utility is engineered to help professionals, students, and researchers instantly convert PDF documents into clean, editable text format without installing heavy software. Whether you need to extract data from a digital report, scrape plaintext summaries, or quickly copy notes, this tool handles everything right inside your browser window.</p>
-
-        <h2>Frequently Asked Questions</h2>
+    <div class="content-section">
+        <h2>About PDF Text Extractor</h2>
+        <p>Our free online PDF Text Extractor allows you to easily extract text from any PDF document. Simply upload your file, and our tool will quickly process the pages and give you clean, readable text instantly without compromising file security.</p>
         
-        <h3>Is this online PDF text extractor safe to use?</h3>
-        <p>Yes, absolutely. Unlike conventional cloud-based converters that force you to upload documents to external servers—exposing your sensitive data—our tool operates entirely client-side. By leveraging advanced local JavaScript APIs, your files are read entirely on your own device. Your private documents are never uploaded, tracked, or saved anywhere.</p>
-        
-        <h3>Can I extract text from secured or restricted PDFs?</h3>
-        <p>If a PDF document requires an open-password to read, you must unlock it before processing. However, if the file is simply locked with print or copy restrictions, our client-side utility safely bypasses those restrictive browser policies to grab the underlying text elements directly.</p>
+        <h2>How to Extract Text From PDF</h2>
+        <ol>
+            <li>Click the upload box to select a PDF file from your device.</li>
+            <li>Wait a brief moment for our system to process the pages.</li>
+            <li>View, edit, or copy the extracted text directly from the screen.</li>
+        </ol>
 
-        <h3>Why choose a client-side extractor over cloud alternatives?</h3>
-        <p>Cloud utilities are often limited by internet connection speeds, throttle your maximum allowed file sizes, or put your private corporate records at risk of data leaks. Processing your assets locally guarantees immediate script output execution regardless of file size, complete processing offline, and total data privacy.</p>
-        
-        <h3>Does this tool support scanned image PDFs (OCR)?</h3>
-        <p>Currently, this utility extracts native font text layers embedded inside digital PDF documents. If your PDF consists purely of photos or flattened images from a scanner without a digital text layer, the tool will not find character data to copy. We recommend using native text documents for best results.</p>
+        <h2>Why Use an Online PDF Extractor?</h2>
+        <p>Extracting text from PDF files manually can be time-consuming. Whether you are a student pulling quotes for an essay, a researcher compiling data, or a professional managing business documentation, converting a PDF back into editable text speeds up your workflow significantly. Our tool processes everything right in your browser, keeping your data entirely secure.</p>
     </div>
 
     <script>
-        // Set up fixed PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-        async function handleFile(file) {
-            if (!file) return;
-            const reader = new FileReader();
-            
-            reader.onload = async function(e) {
-<script>
-        // Set up fixed PDF.js worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        const fileInput = document.getElementById('file-input');
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
 
         async function handleFile(file) {
             if (!file) return;
@@ -86,7 +128,7 @@
             reader.readAsArrayBuffer(file);
         }
 
-        function copyText() {
+        fnction copyText() {
             const textarea = document.getElementById('output-text');
             textarea.select();
             document.execCommand('copy');
