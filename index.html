@@ -59,18 +59,24 @@
             const reader = new FileReader();
             
             reader.onload = async function(e) {
+<script>
+        // Set up fixed PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        async function handleFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function (e) {
                 const typedarray = new Uint8Array(e.target.result);
                 try {
                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
                     let fullText = "";
-                    
                     for (let i = 1; i <= pdf.numPages; i++) {
                         const page = await pdf.getPage(i);
                         const textContent = await page.getTextContent();
                         const pageText = textContent.items.map(item => item.str).join(" ");
-                        fullText += `--- Page ${i} ---\n` + pageText + "\n\n";
-                    } 
-                    
+                        fullText += `--- Page ${i} --- \n` + pageText + " \n\n ";
+                    }
                     document.getElementById('output-text').value = fullText;
                     document.getElementById('copy-btn').style.display = 'inline-block';
                 } catch (error) {
