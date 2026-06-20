@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Text Extractor</title>
+    <meta name="description" content="A free, privacy-focused online tool to extract text from PDF files instantly. No server uploads, no registration, and 100% secure processing directly in your browser.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Free Online PDF Text Extractor | Secure & Local</title>
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-        .info-section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; line-height: 1.6; }
+        .info-section, .faq-section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
         footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #555; }
+        h1 { color: #333; }
     </style>
 </head>
 <body>
 
     <h1>PDF Text Extractor</h1>
+    <p>Upload your PDF file to extract text instantly. Your files are processed locally in your browser for maximum privacy.</p>
+    
     <input type="file" id="pdf-upload" accept="application/pdf">
     <br><br>
     <textarea id="output-text" rows="10" style="width: 100%;" readonly></textarea>
@@ -25,7 +29,7 @@
 
     <section class="info-section">
         <h2>How to extract text from PDF</h2>
-        <p>Using our tool is simple. Just upload your PDF file, and our browser-based engine will instantly extract the text. No data is sent to a server, making this the most secure way to handle sensitive documents.</p>
+        <p>Using our tool is simple. Just upload your PDF file, and our browser-based engine will instantly extract the text. No data is sent to a server.</p>
         <ul>
             <li><strong>Secure:</strong> Your files never leave your computer.</li>
             <li><strong>Fast:</strong> Text extraction happens in milliseconds.</li>
@@ -33,11 +37,16 @@
         </ul>
     </section>
 
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <p><strong>Q: Is my PDF data uploaded to a server?</strong><br>
+        A: No, everything is processed locally in your web browser. Your data is 100% private.</p>
+        <p><strong>Q: Is this tool free to use?</strong><br>
+        A: Yes, this is a free utility tool provided for your convenience.</p>
+    </section>
+
     <footer>
-        <a href="privacy.html">Privacy Policy</a> | 
-        <a href="terms.html">Terms of Service</a> | 
-        <a href="contact.html">Contact Us</a>
-        <a href="guide.html">Guide</a>
+        <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a> | <a href="contact.html">Contact Us</a> | <a href="guide.html">Guide</a>
     </footer>
 
     <script>
