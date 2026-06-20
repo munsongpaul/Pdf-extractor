@@ -3,88 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free, secure, and fast online PDF to text extractor. Convert your PDFs to editable text instantly in your browser without uploading files.">
-    <meta name="keywords" content="pdf to text, extract text from pdf, online pdf converter, free pdf tool, text extractor">
-    <title>PDF Text Extractor - Free & Secure</title>
+    <title>PDF Text Extractor</title>
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; color: #1e293b; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; background: white; margin: 40px auto; padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-        .upload-box { border: 2px dashed #6366f1; padding: 40px; border-radius: 12px; background: #eef2ff; cursor: pointer; display: block; transition: 0.3s; margin-bottom: 20px; }
-        .upload-box:hover { background: #e0e7ff; }
-        textarea { width: 100%; height: 300px; margin-top: 20px; padding: 16px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
-        .btn { background-color: #6366f1; color: white; padding: 12px 24px; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; margin: 10px 5px; display: none; }
-        .btn-green { background-color: #10b981; }
-        .info-section { max-width: 800px; margin: 40px auto; padding: 20px; color: #475569; text-align: left; }
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        .info-section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+        footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #555; }
     </style>
 </head>
 <body>
 
-<div class="container">
     <h1>PDF Text Extractor</h1>
-    <p style="color: #64748b; margin-bottom: 30px;">🔒 100% Privacy: Your files are processed locally in your browser.</p>
-    
-    <label class="upload-box" for="pdf-upload">Click or Drag & Drop to Upload PDF</label>
-    <input type="file" id="pdf-upload" accept="application/pdf" style="display:none;">
-    
-    <textarea id="output-text" placeholder="Extracted text will appear here..."></textarea>
-    
-    <div>
-        <button class="btn" id="copy-btn" onclick="copyText()">Copy Text</button>
-        <button class="btn btn-green" id="download-btn" onclick="downloadText()">Download .txt</button>
-    </div>
-</div>
+    <input type="file" id="pdf-upload" accept="application/pdf">
+    <br><br>
+    <textarea id="output-text" rows="10" style="width: 100%;" readonly></textarea>
+    <br>
+    <button id="copy-btn" onclick="copyText()" style="display:none;">Copy Text</button>
+    <button id="download-btn" onclick="downloadText()" style="display:none;">Download .txt</button>
 
-<section class="info-section">
-    <h2>How to extract text from PDF</h2>
-    <p>Using our tool is simple. Just upload your PDF file, and our browser-based engine will instantly extract the text. No data is sent to a server, making this the most secure way to handle sensitive documents.</p>
-    <ul>
-        <li><strong>Secure:</strong> Your files never leave your computer.</li>
-        <li><strong>Fast:</strong> Text extraction happens in milliseconds.</li>
-        <li><strong>Free:</strong> No subscriptions or hidden costs.</li>
-    </ul>
-</section>
+    <section class="info-section">
+        <h2>How to extract text from PDF</h2>
+        <p>Using our tool is simple. Just upload your PDF file, and our browser-based engine will instantly extract the text. No data is sent to a server, making this the most secure way to handle sensitive documents.</p>
+        <ul>
+            <li><strong>Secure:</strong> Your files never leave your computer.</li>
+            <li><strong>Fast:</strong> Text extraction happens in milliseconds.</li>
+            <li><strong>Free:</strong> No subscriptions or hidden costs.</li>
+        </ul>
+    </section>
 
-<script>
-    const upload = document.getElementById('pdf-upload');
-    const output = document.getElementById('output-text');
-    
-    upload.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = async function() {
-            const typedarray = new Uint8Array(this.result);
-            const pdf = await pdfjsLib.getDocument(typedarray).promise;
-            let fullText = "";
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
-                fullText += textContent.items.map(s => s.str).join(" ") + "\n";
-            }
-            output.value = fullText;
-            document.getElementById('copy-btn').style.display = 'inline-block';
-            document.getElementById('download-btn').style.display = 'inline-block';
-        };
-        reader.readAsArrayBuffer(file);
-    });
+    <footer>
+        <a href="privacy.html">Privacy Policy</a> | 
+        <a href="terms.html">Terms of Service</a> | 
+        <a href="contact.html">Contact Us</a>
+    </footer>
 
-    function copyText() {
-        output.select();
-        document.execCommand('copy');
-        alert("Text copied to clipboard!");
-    }
+    <script>
+        const upload = document.getElementById('pdf-upload');
+        const output = document.getElementById('output-text');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    function downloadText() {
-        const text = output.value;
-        const blob = new Blob([text], { type: 'text/plain' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'extracted_text.txt';
-        a.click();
-    }
-</script>
+        upload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function () {
+                const typedarray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                let fullText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    fullText += textContent.items.map(s => s.str).join(" ") + "\n";
+                }
+                output.value = fullText;
+                document.getElementById('copy-btn').style.display = 'inline-block';
+                document.getElementById('download-btn').style.display = 'inline-block';
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        function copyText() {
+            output.select();
+            document.execCommand('copy');
+            alert("Text copied to clipboard!");
+        }
+
+        function downloadText() {
+            const text = output.value;
+            const blob = new Blob([text], {type: 'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'extracted_text.txt';
+            a.click();
+        }
+    </script>
 </body>
 </html>
