@@ -28,7 +28,53 @@
 
         <!-- YOUR EXISTING TOOL LOGIC GOES BELOW -->
         <div id="tool-container" style="padding: 20px; border: 1px solid #eee; background: #f9f9f9;">
-            <!-- [PASTE YOUR EXISTING EXTRACTOR BUTTON/SCRIPT HERE] -->
+            <input type="file" id="pdf-upload" accept="application/pdf">
+<br><br>
+<textarea id="output-text" rows="10" style="width: 100%;" readonly></textarea>
+<br>
+<button id="copy-btn" onclick="copyText()" style="display:none;">Copy Text</button>
+<button id="download-btn" onclick="downloadText()" style="display:none;">Download .txt</button>
+
+<script>
+    const upload = document.getElementById('pdf-upload');
+    const output = document.getElementById('output-text');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    upload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const typedarray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            let fullText = "";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                fullText += textContent.items.map(s => s.str).join(" ") + "\n";
+            }
+            output.value = fullText;
+            document.getElementById('copy-btn').style.display = 'inline-block';
+            document.getElementById('download-btn').style.display = 'inline-block';
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    function copyText() {
+        output.select();
+        document.execCommand('copy');
+        alert("Text copied to clipboard!");
+    }
+
+    function downloadText() {
+        const text = output.value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'extracted_text.txt';
+        a.click();
+    }
+</script>
         </div>
         <!-- END OF TOOL -->
 
